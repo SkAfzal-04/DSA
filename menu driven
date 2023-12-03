@@ -1,0 +1,123 @@
+#include <stdio.h>
+
+#define MAX_SIZE 100
+
+void insertElement(int arr[], int *size);
+void searchElement(int arr[], int size);
+void deleteElement(int arr[], int *size);
+void displayElements(int arr[], int size);
+
+int main() {
+    int arr[MAX_SIZE];
+    int size = 0;
+    int choice;
+
+    while (1) {
+        printf("\nArray Operations Menu:\n");
+        printf("1. Insert Element\n");
+        printf("2. Search Element\n");
+        printf("3. Delete Element\n");
+        printf("4. Display Elements\n");
+        printf("5. Exit\n");
+
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+
+        switch (choice) {
+            case 1:
+                insertElement(arr, &size);
+                break;
+            case 2:
+                searchElement(arr, size);
+                break;
+            case 3:
+                deleteElement(arr, &size);
+                break;
+            case 4:
+                displayElements(arr, size);
+                break;
+            case 5:
+                printf("Exiting the program.\n");
+                return 0;
+            default:
+                printf("Invalid choice. Please enter a valid option.\n");
+        }
+    }
+
+    return 0;
+}
+
+void insertElement(int arr[], int *size) {
+    if (*size == MAX_SIZE) {
+        printf("Array is full. Cannot insert more elements.\n");
+        return;
+    }
+
+    printf("Enter the element to insert: ");
+    scanf("%d", &arr[*size]);
+    (*size)++;
+
+    printf("Element inserted successfully.\n");
+}
+
+void searchElement(int arr[], int size) {
+    if (size == 0) {
+        printf("Array is empty. Cannot search for elements.\n");
+        return;
+    }
+
+    int target;
+    printf("Enter the element to search: ");
+    scanf("%d", &target);
+
+    for (int i = 0; i < size; ++i) {
+        if (arr[i] == target) {
+            printf("Element found at index %d.\n", i);
+            return;
+        }
+    }
+
+    printf("Element not found in the array.\n");
+}
+
+void deleteElement(int arr[], int *size) {
+    if (*size == 0) {
+        printf("Array is empty. Cannot delete elements.\n");
+        return;
+    }
+
+    int target;
+    printf("Enter the element to delete: ");
+    scanf("%d", &target);
+
+    int found = 0;
+    for (int i = 0; i < *size; ++i) {
+        if (arr[i] == target) {
+            // Shift elements to the left to fill the gap
+            for (int j = i; j < *size - 1; ++j) {
+                arr[j] = arr[j + 1];
+            }
+            (*size)--;
+            found = 1;
+            printf("Element deleted successfully.\n");
+            break;
+        }
+    }
+
+    if (!found) {
+        printf("Element not found in the array. Deletion failed.\n");
+    }
+}
+
+void displayElements(int arr[], int size) {
+    if (size == 0) {
+        printf("Array is empty.\n");
+        return;
+    }
+
+    printf("Array elements: ");
+    for (int i = 0; i < size; ++i) {
+        printf("%d ", arr[i]);
+    }
+    printf("\n");
+}

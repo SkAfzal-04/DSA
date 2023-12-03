@@ -1,0 +1,83 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<ctype.h>
+#define max 100
+struct stack{
+	int a[max];
+	int top;	
+}st;
+
+void push(int d){
+	if (st.top>=max-1){
+		printf("Strack Overflow");
+		return;
+	}
+	st.top++;
+	st.a[st.top]=d;
+	
+}
+
+int pop(){
+	if (st.top==-1){
+		printf("Stack Underflow! ");
+		return -1;
+	}
+	return st.a[st.top--];
+}
+void display(){
+	for (int i=0;i<=st.top;i++){
+		printf("%d ",st.a[i]);
+	}
+}
+int eval(char *ep){
+
+	for(int i=0;ep[i]!='=';++i){
+		if(isdigit(ep[i])){
+
+			push(ep[i]-'0');
+
+		}
+		else{
+			int op2=pop();
+			int op1=pop();
+			switch(ep[i]){
+				case '+':
+					push(op1+op2);
+					break;
+				case '-':
+					push(op1-op2);
+					break;
+				case '*':
+					push(op1*op2);
+					break;
+				case '/':
+					push(op1/op2);
+					break;
+			}
+		}
+	}
+	return pop();
+}
+int main(){
+	st.top=-1;
+//	for (int i=0;i<=max;i++){
+//		push(i+1);
+//	}
+//	for (int i=0;i<max;i++){
+//		int p=pop();
+//		printf("%d\n",p);
+//	}
+
+	char exp[max];
+	printf("Enter the expression: \n");
+	fgets(exp,sizeof(exp),stdin);
+	printf("%s",exp);
+	int r=eval(exp);
+	
+	printf("%d",r);
+	
+ 
+	
+//	display();
+	return 0;
+}
